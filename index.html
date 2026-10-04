@@ -271,10 +271,22 @@
     { base: "ambil",  mean: "取る",   ans: "mengambil", wrong: ["menambil", "memambil", "meambil"],
       rule: "<b>母音（a, i, u, e, o）</b>で始まる語は me- が <b>meng-</b> になります。<br>ambil → <b>mengambil</b>" },
     { base: "cuci",   mean: "洗う",   ans: "mencuci",   wrong: ["mecuci", "mengcuci", "memcuci"],
-      rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります。<br>cuci → <b>mencuci</b>" }
-　　
-  
-];
+      rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります。<br>cuci → <b>mencuci</b>" },
+    { base: "hitung", mean: "数える", ans: "menghitung", wrong: ["menitung", "memhitung", "mehitung"],
+      rule: "<b>h で始まる語</b>は me- が <b>meng-</b> になります（h は残る）。<br>hitung → <b>menghitung</b>" },
+    { base: "gambar", mean: "描く",   ans: "menggambar", wrong: ["mengambar", "memgambar", "megambar"],
+      rule: "<b>g で始まる語</b>は me- が <b>meng-</b> になります（g は残る）。<br>gambar → <b>menggambar</b>" },
+    { base: "beli",   mean: "買う",   ans: "membeli",   wrong: ["menbeli", "mengbeli", "mebeli"],
+      rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>beli → <b>membeli</b>" },
+    { base: "pakai",  mean: "使う",   ans: "memakai",   wrong: ["mempakai", "menpakai", "mengpakai"],
+      rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pakai → me + m + akai = <b>memakai</b>" },
+    { base: "nyanyi", mean: "歌う",   ans: "menyanyi",  wrong: ["mennyanyi", "memnyanyi", "menganyi"],
+      rule: "<b>ny で始まる語</b>は me- の形がそのまま（meny-）つきます。<br>nyanyi → <b>menyanyi</b>" },
+    { base: "dengar", mean: "聞く",   ans: "mendengar", wrong: ["mengdengar", "medengar", "memdengar"],
+      rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（d は残る）。<br>dengar → <b>mendengar</b>" },
+    { base: "masak",  mean: "料理する", ans: "memasak", wrong: ["menmasak", "mengmasak", "memmasak"],
+      rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>つきます。<br>masak → me + masak = <b>memasak</b>" }
+  ];
 
   const WORD_POOL = [
     { id: "makan",    mean: "食べる",     note: "makan は「食べる」。nasi（ご飯）と合わせて makan nasi＝ご飯を食べる。" },
