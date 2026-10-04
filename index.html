@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>インドネシア語マスター</title>
+<style>
+  :root {
+    --red: #E55353;
+    --red-deep: #D94A4A;
+    --red-soft: #FDECEC;
+    --red-line: #F4C4C4;
+    --bg: #F8F9FA;
+    --white: #FFFFFF;
+    --text: #2B2F33;
+    --sub: #6B7280;
+    --line: #E5E7EB;
+    --ok: #3F9B6B;
+    --ok-bg: #E8F5EE;
+    --ng-bg: #FDECEC;
+    --shadow: 0 6px 20px rgba(60, 40, 40, 0.07);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  body::before {
+    content: "";
+    position: fixed; left: 0; right: 0; top: 0; height: 6px;
+    background: linear-gradient(90deg, var(--red), #F08A8A);
+    z-index: 10;
+  }
+  .app {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 32px 18px calc(40px + env(safe-area-inset-bottom));
+  }
+  .screen { display: none; animation: fade .3s ease; }
+  .screen.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* ---------- Top ---------- */
+  .hero { text-align: center; padding: 28px 0 24px; }
+  .flag {
+    width: 64px; height: 44px; margin: 0 auto 16px;
+    border-radius: 8px; overflow: hidden;
+    box-shadow: var(--shadow); border: 1px solid var(--line);
+  }
+  .flag i { display: block; height: 50%; }
+  .flag i:first-child { background: var(--red); }
+  .flag i:last-child { background: var(--white); }
+  h1 { font-size: 1.9rem; margin: 0 0 6px; letter-spacing: .02em; color: var(--text); }
+  h1 span { color: var(--red); }
+  .subtitle { color: var(--sub); margin: 0; font-size: 1rem; }
+
+  .cards { display: grid; gap: 14px; margin-top: 8px; }
+  .mode-card {
+    display: flex; align-items: center; gap: 16px;
+    width: 100%; text-align: left;
+    background: var(--white);
+    border: 1.5px solid var(--line);
+    border-radius: 20px;
+    padding: 22px 20px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    font: inherit; color: inherit;
+    transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  .mode-card:hover { border-color: var(--red-line); transform: translateY(-2px); }
+  .mode-card:active { transform: scale(.97); }
+  .mode-icon {
+    flex: none; width: 56px; height: 56px; border-radius: 16px;
+    background: var(--red-soft); color: var(--red-deep);
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 1.15rem;
+  }
+  .mode-title { font-weight: 700; font-size: 1.1rem; display: block; }
+  .mode-desc { color: var(--sub); font-size: .88rem; display: block; margin-top: 2px; }
+  .mode-arrow { margin-left: auto; color: var(--red); font-size: 1.4rem; }
+
+  /* ---------- Back button (capsule) ---------- */
+  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 9px 20px;
+    border: 1.5px solid var(--red);
+    background: var(--white);
+    color: var(--red-deep);
+    border-radius: 24px;
+    font: inherit; font-weight: 700; font-size: .95rem;
+    cursor: pointer;
+    transition: transform .15s ease, background .15s ease, color .15s ease;
+  }
+  .back-btn:hover { background: var(--red-soft); }
+  .back-btn:active { transform: scale(.92); background: var(--red); color: #fff; }
+  .mode-label { font-size: .85rem; color: var(--sub); font-weight: 600; }
+
+  /* ---------- Quiz ---------- */
+  .progress-wrap { margin-bottom: 18px; }
+  .progress-text { display: flex; justify-content: space-between; font-size: .85rem; color: var(--sub); margin-bottom: 6px; }
+  .bar { height: 8px; background: var(--line); border-radius: 8px; overflow: hidden; }
+  .bar > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--red), #F08A8A); border-radius: 8px; transition: width .35s ease; }
+
+  .q-card {
+    background: var(--white); border-radius: 22px; padding: 26px 20px;
+    box-shadow: var(--shadow); text-align: center; border: 1px solid var(--line);
+  }
+  .q-hint { font-size: .85rem; color: var(--sub); margin: 0 0 8px; }
+  .q-word { font-size: 2.3rem; font-weight: 800; color: var(--red-deep); margin: 0; letter-spacing: .02em; word-break: break-word; }
+  .q-mean { font-size: 1.05rem; color: var(--text); margin: 4px 0 0; }
+  .q-ask { margin: 14px 0 0; font-size: .95rem; color: var(--sub); }
+
+  .options { display: grid; gap: 10px; margin-top: 16px; }
+  .opt {
+    width: 100%; padding: 15px 16px;
+    background: var(--white); border: 1.5px solid var(--line); border-radius: 16px;
+    font: inherit; font-size: 1.1rem; font-weight: 600; color: var(--text);
+    cursor: pointer; text-align: center;
+    transition: transform .12s ease, border-color .12s ease, background .12s ease;
+  }
+  .opt:hover:not(:disabled) { border-color: var(--red-line); background: #FFFAFA; }
+  .opt:active:not(:disabled) { transform: scale(.97); }
+  .opt:disabled { cursor: default; }
+  .opt.correct { background: var(--ok-bg); border-color: var(--ok); color: #226A47; }
+  .opt.wrong { background: var(--ng-bg); border-color: var(--red); color: var(--red-deep); animation: shake .35s; }
+  .opt.dim { opacity: .55; }
+  @keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+  .feedback {
+    display: none; margin-top: 16px; padding: 16px 18px;
+    border-radius: 16px; border: 1.5px solid var(--line); background: var(--white);
+    animation: fade .3s ease;
+  }
+  .feedback.show { display: block; }
+  .feedback.ok { background: var(--ok-bg); border-color: #BFE3CF; }
+  .feedback.ng { background: var(--ng-bg); border-color: var(--red-line); }
+  .fb-head { font-weight: 800; font-size: 1.05rem; margin: 0 0 6px; }
+  .feedback.ok .fb-head { color: var(--ok); }
+  .feedback.ng .fb-head { color: var(--red-deep); }
+  .fb-body { margin: 0; font-size: .95rem; }
+  .fb-body b { color: var(--red-deep); }
+  .next-btn { display: none; margin-top: 16px; width: 100%; }
+  .next-btn.show { display: block; }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: block; width: 100%; padding: 15px 18px;
+    border-radius: 18px; border: 1.5px solid var(--red);
+    font: inherit; font-weight: 700; font-size: 1.05rem; cursor: pointer;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .btn:active { transform: scale(.96); }
+  .btn.primary { background: var(--red); color: #fff; box-shadow: 0 6px 16px rgba(229, 83, 83, .28); }
+  .btn.primary:hover { background: var(--red-deep); }
+  .btn.ghost { background: var(--white); color: var(--red-deep); }
+  .btn.ghost:hover { background: var(--red-soft); }
+
+  /* ---------- Result ---------- */
+  .result { text-align: center; padding-top: 24px; }
+  .result-card {
+    background: var(--white); border-radius: 24px; padding: 34px 20px;
+    box-shadow: var(--shadow); border: 1px solid var(--line); margin-bottom: 20px;
+  }
+  .result-emoji { font-size: 3rem; margin-bottom: 4px; }
+  .result-score { font-size: 1.5rem; font-weight: 800; margin: 6px 0; }
+  .result-score span { color: var(--red-deep); font-size: 2.6rem; }
+  .result-msg { color: var(--sub); margin: 0; }
+  .result-btns { display: grid; gap: 12px; }
+
+  @media (min-width: 700px) {
+    .app { padding-top: 48px; }
+    h1 { font-size: 2.2rem; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- トップ -->
+  <section id="screen-top" class="screen active">
+    <div class="hero">
+      <div class="flag" aria-hidden="true"><i></i><i></i></div>
+      <h1>インドネシア語<span>マスター</span></h1>
+      <p class="subtitle">モードを選んでスタートしよう</p>
+    </div>
+    <div class="cards">
+      <button class="mode-card" data-mode="me">
+        <span class="mode-icon">me-</span>
+        <span>
+          <span class="mode-title">接頭辞 me- 音変化クイズ</span>
+          <span class="mode-desc">基語に me- がつくとどう変わる？</span>
+        </span>
+        <span class="mode-arrow">›</span>
+      </button>
+      <button class="mode-card" data-mode="word">
+        <span class="mode-icon">Aa</span>
+        <span>
+          <span class="mode-title">基本単語 意味当てクイズ</span>
+          <span class="mode-desc">インドネシア語の意味を当てよう</span>
+        </span>
+        <span class="mode-arrow">›</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- クイズ -->
+  <section id="screen-quiz" class="screen">
+    <div class="topbar">
+      <button class="back-btn" id="btn-back">← メニュー</button>
+      <span class="mode-label" id="mode-label"></span>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-text"><span id="progress-text">1 / 5</span><span id="score-text">正解 0</span></div>
+      <div class="bar"><div id="bar-fill"></div></div>
+    </div>
+    <div class="q-card">
+      <p class="q-hint" id="q-hint"></p>
+      <p class="q-word" id="q-word"></p>
+      <p class="q-mean" id="q-mean"></p>
+      <p class="q-ask" id="q-ask"></p>
+    </div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback">
+      <p class="fb-head" id="fb-head"></p>
+      <p class="fb-body" id="fb-body"></p>
+    </div>
+    <button class="btn primary next-btn" id="btn-next">次の問題へ</button>
+  </section>
+
+  <!-- 結果 -->
+  <section id="screen-result" class="screen">
+    <div class="result">
+      <div class="result-card">
+        <div class="result-emoji" id="result-emoji"></div>
+        <div class="result-score"><span id="result-correct">0</span> 問正解！</div>
+        <p class="result-score" style="font-size:1rem;color:var(--sub);font-weight:600" id="result-total"></p>
+        <p class="result-msg" id="result-msg"></p>
+      </div>
+      <div class="result-btns">
+        <button class="btn primary" id="btn-retry">もう一度遊ぶ</button>
+        <button class="btn ghost" id="btn-top">トップメニューに戻る</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  // ---------- 問題データ ----------
+  const ME_POOL = [
+    { base: "tulis",  mean: "書く",   ans: "menulis",   wrong: ["mentulis", "memtulis", "mengtulis"],
+      rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tulis → me + n + ulis = <b>menulis</b>" },
+    { base: "baca",   mean: "読む",   ans: "membaca",   wrong: ["menbaca", "mengbaca", "mebaca"],
+      rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>baca → <b>membaca</b>" },
+    { base: "sapu",   mean: "掃く",   ans: "menyapu",   wrong: ["mensapu", "mesapu", "mengsapu"],
+      rule: "<b>s で始まる語</b>は me- が <b>meny-</b> になり、頭の <b>s は消えます</b>。<br>sapu → me + ny + apu = <b>menyapu</b>" },
+    { base: "kirim",  mean: "送る",   ans: "mengirim",  wrong: ["mengkirim", "menkirim", "memkirim"],
+      rule: "<b>k で始まる語</b>は me- が <b>meng-</b> になり、頭の <b>k は消えます</b>。<br>kirim → me + ng + irim = <b>mengirim</b>" },
+    { base: "lihat",  mean: "見る",   ans: "melihat",   wrong: ["menlihat", "memlihat", "menglihat"],
+      rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>変わりません。<br>lihat → <b>melihat</b>" },
+    { base: "jual",   mean: "売る",   ans: "menjual",   wrong: ["mejual", "memjual", "menyjual"],
+      rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（頭の文字は残る）。<br>jual → <b>menjual</b>" },
+    { base: "pukul",  mean: "叩く",   ans: "memukul",   wrong: ["mempukul", "menpukul", "mengpukul"],
+      rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pukul → me + m + ukul = <b>memukul</b>" },
+    { base: "ambil",  mean: "取る",   ans: "mengambil", wrong: ["menambil", "memambil", "meambil"],
+      rule: "<b>母音（a, i, u, e, o）</b>で始まる語は me- が <b>meng-</b> になります。<br>ambil → <b>mengambil</b>" },
+    { base: "cuci",   mean: "洗う",   ans: "mencuci",   wrong: ["mecuci", "mengcuci", "memcuci"],
+      rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります。<br>cuci → <b>mencuci</b>" }
+  ];
+
+  const WORD_POOL = [
+    { id: "makan",    mean: "食べる",     note: "makan は「食べる」。nasi（ご飯）と合わせて makan nasi＝ご飯を食べる。" },
+    { id: "minum",    mean: "飲む",       note: "minum は「飲む」。minum air＝水を飲む。" },
+    { id: "rumah",    mean: "家",         note: "rumah は「家」。rumah sakit だと「病院」になります。" },
+    { id: "air",      mean: "水",         note: "air は「水」。英語の air（空気）とは違うので注意！" },
+    { id: "buku",     mean: "本",         note: "buku は「本」。日本語の「ブック」に近い音です。" },
+    { id: "sekolah",  mean: "学校",       note: "sekolah は「学校」。オランダ語 school が語源です。" },
+    { id: "besar",    mean: "大きい",     note: "besar は「大きい」。反対は kecil（小さい）。" },
+    { id: "murah",    mean: "安い",       note: "murah は「安い」。反対は mahal（高い）。" },
+    { id: "kucing",   mean: "猫",         note: "kucing は「猫」。「クチン」と読みます。" },
+    { id: "pergi",    mean: "行く",       note: "pergi は「行く」。反対は datang（来る）。" },
+    { id: "terima kasih", mean: "ありがとう", note: "terima kasih は「ありがとう」。直訳は「愛を受け取る」。" },
+    { id: "selamat pagi", mean: "おはよう", note: "selamat pagi は朝のあいさつ。siang（昼）、malam（夜）と使い分けます。" }
+  ];
+
+  const TOTAL = 5;
+
+  // ---------- 状態 ----------
+  let mode = null, questions = [], idx = 0, score = 0, answered = false;
+
+  const $ = (id) => document.getElementById(id);
+  const screens = { top: $("screen-top"), quiz: $("screen-quiz"), result: $("screen-result") };
+
+  function show(name) {
+    Object.values(screens).forEach((s) => s.classList.remove("active"));
+    screens[name].classList.add("active");
+    window.scrollTo({ top: 0 });
+  }
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  // ---------- 問題生成 ----------
+  function buildQuestions(m) {
+    if (m === "me") {
+      return shuffle(ME_POOL).slice(0, TOTAL).map((q) => ({
+        hint: "基語と意味",
+        word: q.base,
+        mean: "（" + q.mean + "）",
+        ask: "me- がついた正しい形はどれ？",
+        options: shuffle([q.ans, ...q.wrong]),
+        answer: q.ans,
+        explain: q.rule
+      }));
+    }
+    return shuffle(WORD_POOL).slice(0, TOTAL).map((q) => {
+      const others = shuffle(WORD_POOL.filter((w) => w.mean !== q.mean)).slice(0, 3).map((w) => w.mean);
+      return {
+        hint: "この単語の意味は？",
+        word: q.id,
+        mean: "",
+        ask: "日本語の意味を選んでください",
+        options: shuffle([q.mean, ...others]),
+        answer: q.mean,
+        explain: q.note
+      };
+    });
+  }
+
+  // ---------- 表示 ----------
+  function start(m) {
+    mode = m;
+    questions = buildQuestions(m);
+    idx = 0; score = 0;
+    $("mode-label").textContent = m === "me" ? "接頭辞 me- 音変化" : "基本単語 意味当て";
+    show("quiz");
+    render();
+  }
+
+  function render() {
+    answered = false;
+    const q = questions[idx];
+    $("progress-text").textContent = (idx + 1) + " / " + questions.length;
+    $("score-text").textContent = "正解 " + score;
+    $("bar-fill").style.width = (idx / questions.length * 100) + "%";
+    $("q-hint").textContent = q.hint;
+    $("q-word").textContent = q.word;
+    $("q-mean").textContent = q.mean;
+    $("q-mean").style.display = q.mean ? "block" : "none";
+    $("q-ask").textContent = q.ask;
+
+    const box = $("options");
+    box.innerHTML = "";
+    q.options.forEach((text) => {
+      const b = document.createElement("button");
+      b.className = "opt";
+      b.type = "button";
+      b.textContent = text;
+      b.addEventListener("click", () => choose(b, text));
+      box.appendChild(b);
+    });
+
+    const fb = $("feedback");
+    fb.className = "feedback";
+    $("btn-next").classList.remove("show");
+  }
+
+  function choose(btn, text) {
+    if (answered) return;
+    answered = true;
+    const q = questions[idx];
+    const ok = text === q.answer;
+    if (ok) score++;
+
+    document.querySelectorAll("#options .opt").forEach((b) => {
+      b.disabled = true;
+      if (b.textContent === q.answer) b.classList.add("correct");
+      else if (b === btn) b.classList.add("wrong");
+      else b.classList.add("dim");
+    });
+
+    const fb = $("feedback");
+    fb.className = "feedback show " + (ok ? "ok" : "ng");
+    $("fb-head").textContent = ok ? "⭕ 正解！" : "❌ 不正解… 正解は「" + q.answer + "」";
+    $("fb-body").innerHTML = q.explain;
+
+    $("score-text").textContent = "正解 " + score;
+    $("bar-fill").style.width = ((idx + 1) / questions.length * 100) + "%";
+
+    const next = $("btn-next");
+    next.textContent = idx + 1 >= questions.length ? "結果を見る" : "次の問題へ";
+    next.classList.add("show");
+    next.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  function next() {
+    idx++;
+    if (idx >= questions.length) return showResult();
+    render();
+  }
+
+  function showResult() {
+    const total = questions.length;
+    $("result-correct").textContent = score;
+    $("result-total").textContent = total + "問中 " + score + "問正解！";
+    let emoji, msg;
+    if (score === total) { emoji = "🎉"; msg = "パーフェクト！すばらしい！"; }
+    else if (score >= total - 1) { emoji = "😊"; msg = "とても良い調子です！"; }
+    else if (score >= Math.ceil(total / 2)) { emoji = "🙂"; msg = "いい感じ！もう少しで完璧です。"; }
+    else { emoji = "💪"; msg = "もう一度チャレンジしてみよう！"; }
+    $("result-emoji").textContent = emoji;
+    $("result-msg").textContent = msg;
+    show("result");
+  }
+
+  // ---------- イベント ----------
+  document.querySelectorAll(".mode-card").forEach((c) =>
+    c.addEventListener("click", () => start(c.dataset.mode))
+  );
+  $("btn-back").addEventListener("click", () => show("top"));
+  $("btn-next").addEventListener("click", next);
+  $("btn-retry").addEventListener("click", () => start(mode));
+  $("btn-top").addEventListener("click", () => show("top"));
+})();
+</script>
+</body>
+</html>
