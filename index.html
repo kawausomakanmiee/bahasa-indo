@@ -322,24 +322,74 @@
 (function () {
   // ---------- 問題データ ----------
   const ME_POOL = [
-    // 1音節語幹（menge-）の例を追加
+    // 1音節語幹（menge-）
     { id: "me_cat", base: "cat", mean: "ペンキを塗る", ans: "mengecat", wrong: ["mencat", "memcat", "mengcat"], rule: "<b>1音節（単音節）の語幹</b>は me- が <b>menge-</b> になります。<br>cat → <b>mengecat</b>" },
     { id: "me_tik", base: "tik", mean: "タイピングする", ans: "mengetik", wrong: ["mentik", "memtik", "mengtik"], rule: "<b>1音節（単音節）の語幹</b>は me- が <b>menge-</b> になります。<br>tik → <b>mengetik</b>" },
     { id: "me_klik", base: "klik", mean: "クリックする", ans: "mengeklik", wrong: ["menklik", "memklik", "mengklik"], rule: "<b>1音節（単音節）の語幹</b>は me- が <b>menge-</b> になります。<br>klik → <b>mengeklik</b>" },
-
-    // 既存の問題
     { id: "me_tulis", base: "tulis", mean: "書く", ans: "menulis", wrong: ["mentulis", "memtulis", "mengtulis"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tulis → me + n + ulis = <b>menulis</b>" },
     { id: "me_baca", base: "baca", mean: "読む", ans: "membaca", wrong: ["menbaca", "mengbaca", "mebaca"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>baca → <b>membaca</b>" },
     { id: "me_sapu", base: "sapu", mean: "掃く", ans: "menyapu", wrong: ["mensapu", "mesapu", "mengsapu"], rule: "<b>s で始まる語</b>は me- が <b>meny-</b> になり、頭の <b>s は消えます</b>。<br>sapu → me + ny + apu = <b>menyapu</b>" },
     { id: "me_kirim", base: "kirim", mean: "送る", ans: "mengirim", wrong: ["mengkirim", "menkirim", "memkirim"], rule: "<b>k で始まる語</b>は me- が <b>meng-</b> になり、頭の <b>k は消えます</b>。<br>kirim → me + ng + irim = <b>mengirim</b>" },
     { id: "me_lihat", base: "lihat", mean: "見る", ans: "melihat", wrong: ["menlihat", "memlihat", "menglihat"], rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>変わりません。<br>lihat → <b>melihat</b>" },
     { id: "me_jual", base: "jual", mean: "売る", ans: "menjual", wrong: ["mejual", "memjual", "menyjual"], rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（頭の文字は残る）。<br>jual → <b>menjual</b>" },
-    { id: "me_pukul", base: "pukul", mean: "叩く", ans: "memukul", wrong: ["mempukul", "menpukul", "mengpukul"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pukul → me + m + ukul = <b>memukul</b><br><small style='color:#666'>※ mempunyai（持つ）など、一部例外的に p が消えない語もあります。</small>" },
+    { id: "me_pukul", base: "pukul", mean: "叩く", ans: "memukul", wrong: ["mempukul", "menpukul", "mengpukul"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pukul → me + m + ukul = <b>memukul</b>" },
     { id: "me_ambil", base: "ambil", mean: "取る", ans: "mengambil", wrong: ["menambil", "memambil", "meambil"], rule: "<b>母音（a, i, u, e, o）</b>で始まる語は me- が <b>meng-</b> になります。<br>ambil → <b>mengambil</b>" },
     { id: "me_cuci", base: "cuci", mean: "洗う", ans: "mencuci", wrong: ["mecuci", "mengcuci", "memcuci"], rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります。<br>cuci → <b>mencuci</b>" },
     { id: "me_hitung", base: "hitung", mean: "数える", ans: "menghitung", wrong: ["menitung", "memhitung", "mehitung"], rule: "<b>h で始まる語</b>は me- が <b>meng-</b> になります（h は残る）。<br>hitung → <b>menghitung</b>" },
-    { id: "me_pikir", base: "pikir", mean: "〜について考える", ans: "memikirkan", wrong: ["mempikirkan", "mepikirkan", "mengpikirkan"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pikir → me + m + ikir + kan = <b>memikirkan</b><br><small style='color:#666'>※ mempunyai（持つ）など、一部例外的に p が消えない語もあります。</small>" },
-    { id: "me_pilih", base: "pilih", mean: "選ぶ", ans: "memilih", wrong: ["mempilih", "menilih", "mepilih"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pilih → me + m + ilih = <b>memilih</b><br><small style='color:#666'>※ mempunyai（持つ）など、一部例外的に p が消えない語もあります。</small>" }
+    { id: "me_gambar", base: "gambar", mean: "描く", ans: "menggambar", wrong: ["mengambar", "memgambar", "megambar"], rule: "<b>g で始まる語</b>は me- が <b>meng-</b> になります（g は残る）。<br>gambar → <b>menggambar</b>" },
+    { id: "me_beli", base: "beli", mean: "買う", ans: "membeli", wrong: ["menbeli", "mengbeli", "mebeli"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>beli → <b>membeli</b>" },
+    { id: "me_pakai", base: "pakai", mean: "使う", ans: "memakai", wrong: ["mempakai", "menpakai", "mengpakai"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pakai → me + m + akai = <b>memakai</b>" },
+    { id: "me_nyanyi", base: "nyanyi", mean: "歌う", ans: "menyanyi", wrong: ["mennyanyi", "memnyanyi", "menganyi"], rule: "<b>ny で始まる語</b>は me- の形がそのまま（meny-）つきます。<br>nyanyi → <b>menyanyi</b>" },
+    { id: "me_dengar", base: "dengar", mean: "聞く", ans: "mendengar", wrong: ["mengdengar", "medengar", "memdengar"], rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（d は残る）。<br>dengar → <b>mendengar</b>" },
+    { id: "me_masak", base: "masak", mean: "料理する", ans: "memasak", wrong: ["menmasak", "mengmasak", "memmasak"], rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>つきます。<br>masak → me + masak = <b>memasak</b>" },
+    { id: "me_panggil", base: "panggil", mean: "呼ぶ", ans: "memanggil", wrong: ["mempanggil", "menpanggil", "mengpanggil"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>panggil → me + m + anggil = <b>memanggil</b>" },
+    { id: "me_pikir", base: "pikir", mean: "〜について考える", ans: "memikirkan", wrong: ["mempikirkan", "mepikirkan", "mengpikirkan"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pikir → me + m + ikir + kan = <b>memikirkan</b>" },
+    { id: "me_potong", base: "potong", mean: "切る", ans: "memotong", wrong: ["mempotong", "menotong", "mepotong"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>potong → me + m + otong = <b>memotong</b>" },
+    { id: "me_pinjam", base: "pinjam", mean: "借りる", ans: "meminjam", wrong: ["mempinjam", "meninjam", "menpinjam"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pinjam → me + m + injam = <b>meminjam</b>" },
+    { id: "me_minta", base: "minta", mean: "頼む・求める", ans: "meminta", wrong: ["meninta", "memminta", "menminta"], rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>つきます。<br>minta → me + minta = <b>meminta</b>" },
+    { id: "me_minum", base: "minum", mean: "飲む", ans: "meminum", wrong: ["memminum", "menminum", "mengminum"], rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>つきます。<br>minum → me + minum = <b>meminum</b>" },
+    { id: "me_makan", base: "makan", mean: "食べる", ans: "memakan", wrong: ["memmakan", "menmakan", "mengmakan"], rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>つきます。<br>makan → me + makan = <b>memakan</b>" },
+    { id: "me_tutup", base: "tutup", mean: "閉める", ans: "menutup", wrong: ["mentutup", "memtutup", "mengtutup"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tutup → me + n + utup = <b>menutup</b>" },
+    { id: "me_tunggu", base: "tunggu", mean: "待つ", ans: "menunggu", wrong: ["mentunggu", "memtunggu", "mengunggu"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tunggu → me + n + unggu = <b>menunggu</b>" },
+    { id: "me_terima", base: "terima", mean: "受け取る", ans: "menerima", wrong: ["menterima", "memerima", "mengterima"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>terima → me + n + erima = <b>menerima</b>" },
+    { id: "me_tari", base: "tari", mean: "踊る", ans: "menari", wrong: ["metari", "memtari", "mengtari"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tari → me + n + ari = <b>menari</b>" },
+    { id: "me_bawa", base: "bawa", mean: "持っていく・運ぶ", ans: "membawa", wrong: ["menbawa", "mengbawa", "mebawa"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>bawa → <b>membawa</b>" },
+    { id: "me_bantu", base: "bantu", mean: "手伝う", ans: "membantu", wrong: ["menbantu", "mengbantu", "mebantu"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>bantu → <b>membantu</b>" },
+    { id: "me_buka", base: "buka", mean: "開ける", ans: "membuka", wrong: ["menbuka", "mengbuka", "mebuka"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>buka → <b>membuka</b>" },
+    { id: "me_bayar", base: "bayar", mean: "支払う", ans: "membayar", wrong: ["menbayar", "mengbayar", "mebayar"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>bayar → <b>membayar</b>" },
+    { id: "me_dapat", base: "dapat", mean: "得る・もらう", ans: "mendapat", wrong: ["memdapat", "mengdapat", "medapat"], rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（d は残る）。<br>dapat → <b>mendapat</b>" },
+    { id: "me_dorong", base: "dorong", mean: "押す", ans: "mendorong", wrong: ["memdorong", "mengdorong", "medorong"], rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（d は残る）。<br>dorong → <b>mendorong</b>" },
+    { id: "me_goreng", base: "goreng", mean: "揚げる・炒める", ans: "menggoreng", wrong: ["mengoreng", "memgoreng", "megoreng"], rule: "<b>g で始まる語</b>は me- が <b>meng-</b> になります（g は残る）。<br>goreng → <b>menggoreng</b>" },
+    { id: "me_gosok", base: "gosok", mean: "みがく・擦る", ans: "menggosok", wrong: ["mengosok", "memgosok", "megosok"], rule: "<b>g で始まる語</b>は me- が <b>meng-</b> になります（g は残る）。<br>gosok → <b>menggosok</b>" },
+    { id: "me_jawab", base: "jawab", mean: "答える", ans: "menjawab", wrong: ["mejawab", "memjawab", "menyjawab"], rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（j は残る）。<br>jawab → <b>menjawab</b>" },
+    { id: "me_jemput", base: "jemput", mean: "出迎える・迎えに行く", ans: "menjemput", wrong: ["mejemput", "memjemput", "mengjemput"], rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（j は残る）。<br>jemput → <b>menjemput</b>" },
+    { id: "me_jahit", base: "jahit", mean: "縫う", ans: "menjahit", wrong: ["mejahit", "memjahit", "menyjahit"], rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（j は残る）。<br>jahit → <b>menjahit</b>" },
+    { id: "me_kunci", base: "kunci", mean: "鍵をかける", ans: "mengunci", wrong: ["mengkunci", "menkunci", "memkunci"], rule: "<b>k で始まる語</b>は me- が <b>meng-</b> になり、頭の <b>k は消えます</b>。<br>kunci → me + ng + unci = <b>mengunci</b>" },
+    { id: "me_lompat", base: "lompat", mean: "跳ぶ・ジャンプする", ans: "melompat", wrong: ["menlompat", "memlompat", "menglompat"], rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>つきます。<br>lompat → <b>melompat</b>" },
+    { id: "me_sewa", base: "sewa", mean: "借りる・レンタルする", ans: "menyewa", wrong: ["mensewa", "mesewa", "mengsewa"], rule: "<b>s で始まる語</b>は me- が <b>meny-</b> になり、頭の <b>s は消えます</b>。<br>sewa → me + ny + ewa = <b>menyewa</b>" },
+    { id: "me_tambah", base: "tambah", mean: "増やす・加える", ans: "menambah", wrong: ["mentambah", "memtambah", "mengtambah"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tambah → me + n + ambah = <b>menambah</b>" },
+    { id: "me_tangkap", base: "tangkap", mean: "つかまえる・捕獲する", ans: "menangkap", wrong: ["mentangkap", "memtangkap", "mengangkap"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tangkap → me + n + angkap = <b>menangkap</b>" },
+    { id: "me_tiup", base: "tiup", mean: "吹く", ans: "meniup", wrong: ["mentiup", "memtiup", "mengtiup"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tiup → me + n + iup = <b>meniup</b>" },
+    { id: "me_pilih", base: "pilih", mean: "選ぶ", ans: "memilih", wrong: ["mempilih", "menilih", "mepilih"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pilih → me + m + ilih = <b>memilih</b>" },
+    { id: "me_pindah", base: "pindah", mean: "移す・移動させる", ans: "memindahkan", wrong: ["mempindahkan", "menindahkan", "mepindahkan"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pindah → me + m + indah + kan = <b>memindahkan</b>" },
+    { id: "me_siram", base: "siram", mean: "水をかける・水やりする", ans: "menyiram", wrong: ["mensiram", "mesiram", "mengsiram"], rule: "<b>s で始まる語</b>は me- が <b>meny-</b> になり、頭の <b>s は消えます</b>。<br>siram → me + ny + iram = <b>menyiram</b>" },
+    { id: "me_suka", base: "suka", mean: "好き・好む", ans: "menyukai", wrong: ["mensukai", "mesukai", "mengsukai"], rule: "<b>s で始まる語</b>は me- が <b>meny-</b> になり、頭の <b>s は消えます</b>。<br>suka → me + ny + uka + i = <b>menyukai</b>" },
+    { id: "me_simpan", base: "simpan", mean: "保存する・保管する", ans: "menyimpan", wrong: ["mensimpan", "mesimpan", "mengsimpan"], rule: "<b>s で始まる語</b>は me- が <b>meny-</b> になり、頭の <b>s は消えます</b>。<br>simpan → me + ny + impan = <b>menyimpan</b>" },
+    { id: "me_sambut", base: "sambut", mean: "出迎える・歓迎する", ans: "menyambut", wrong: ["mensambut", "mesambut", "mengsambut"], rule: "<b>s で始まる語</b>は me- が <b>meny-</b> になり、頭の <b>s は消えます</b>。<br>sambut → me + ny + ambut = <b>menyambut</b>" },
+    { id: "me_kumpul", base: "kumpul", mean: "集める", ans: "mengumpulkan", wrong: ["mengkumpulkan", "menkumpulkan", "memkumpulkan"], rule: "<b>k で始まる語</b>は me- が <b>meng-</b> になり、頭の <b>k は消えます</b>。<br>kumpul → me + ng + umpul + kan = <b>mengumpulkan</b>" },
+    { id: "me_kejar", base: "kejar", mean: "追いかける", ans: "mengejar", wrong: ["mengkejar", "menkejar", "memkejar"], rule: "<b>k で始まる語</b>は me- が <b>meng-</b> になり、頭の <b>k は消えます</b>。<br>kejar → me + ng + ejar = <b>mengejar</b>" },
+    { id: "me_kenal", base: "kenal", mean: "知っている・知り合う", ans: "mengenal", wrong: ["mengkenal", "menkenal", "memkenal"], rule: "<b>k で始まる語</b>は me- が <b>meng-</b> になり、頭の <b>k は消えます</b>。<br>kenal → me + ng + enal = <b>mengenal</b>" },
+    { id: "me_ajar", base: "ajar", mean: "教える", ans: "mengajar", wrong: ["menajar", "memajar", "meajar"], rule: "<b>母音（a, i, u, e, o）</b>で始まる語は me- が <b>meng-</b> になります。<br>ajar → <b>mengajar</b>" },
+    { id: "me_isi", base: "isi", mean: "満たす・記入する", ans: "mengisi", wrong: ["menisi", "memisi", "meisi"], rule: "<b>母音（a, i, u, e, o）</b>で始まる語は me- が <b>meng-</b> になります。<br>isi → <b>mengisi</b>" },
+    { id: "me_ikat", base: "ikat", mean: "縛る・結ぶ", ans: "mengikat", wrong: ["menikat", "mengkikat", "meikat"], rule: "<b>母音（a, i, u, e, o）</b>で始まる語は me- が <b>meng-</b> になります。<br>ikat → <b>mengikat</b>" },
+    { id: "me_usul", base: "usul", mean: "提案する", ans: "mengusulkan", wrong: ["menusulkan", "memusulkan", "meusulkan"], rule: "<b>母音（a, i, u, e, o）</b>で始まる語は me- が <b>meng-</b> になります。<br>usul → me + ng + usul + kan = <b>mengusulkan</b>" },
+    { id: "me_bakar", base: "bakar", mean: "焼く・燃やす", ans: "membakar", wrong: ["menbakar", "mengbakar", "mebakar"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>bakar → <b>membakar</b>" },
+    { id: "me_buang", base: "buang", mean: "捨てる", ans: "membuang", wrong: ["menbuang", "mengbuang", "mebuang"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>buang → <b>membuang</b>" },
+    { id: "me_balas", base: "balas", mean: "返事する・返答する", ans: "membalas", wrong: ["menbalas", "mengbalas", "mebalas"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>balas → <b>membalas</b>" },
+    { id: "me_ganti", base: "ganti", mean: "交換する・代える", ans: "mengganti", wrong: ["mengati", "memganti", "meganti"], rule: "<b>g で始まる語</b>は me- が <b>meng-</b> になります（g は残る）。<br>ganti → <b>mengganti</b>" },
+    { id: "me_hapus", base: "hapus", mean: "消す・削除する", ans: "menghapus", wrong: ["menapus", "memhapus", "mehapus"], rule: "<b>h で始まる語</b>は me- が <b>meng-</b> になります（h は残る）。<br>hapus → <b>menghapus</b>" },
+    { id: "me_lupa", base: "lupa", mean: "忘れる", ans: "melupakan", wrong: ["menlupakan", "memlupakan", "menglupakan"], rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>つきます。<br>lupa → me + lupa + kan = <b>melupakan</b>" },
+    { id: "me_masuk", base: "masuk", mean: "入る", ans: "memasuki", wrong: ["memmasuki", "menmasuki", "mengmasuki"], rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>つきます。<br>masuk → me + masuk + i = <b>memasuki</b>" }
   ];
 
   const WORD_POOL = [
@@ -586,5 +636,6 @@
   updateReviewBadge();
 })();
 </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
