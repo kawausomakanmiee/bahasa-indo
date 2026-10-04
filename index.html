@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>インドネシア語マスター</title>
+<title>インドネシア語マスター | me- 接頭辞 &amp; 基本単語クイズ</title>
+
+<!-- OGP 設定 (SNS共有用) -->
+<meta property="og:title" content="インドネシア語マスター">
+<meta property="og:description" content="複雑な me- 接頭辞の音変化ルールをクイズで楽しく攻略！">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://via.placeholder.com/1200x630/E55353/FFFFFF?text=Indonesian+Master">
+
 <style>
   :root {
     --red: #E55353;
@@ -45,54 +52,90 @@
   @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
   /* ---------- Top ---------- */
-  .hero { text-align: center; padding: 28px 0 24px; }
+  .hero { text-align: center; padding: 20px 0 16px; }
   .flag {
-    width: 64px; height: 44px; margin: 0 auto 16px;
+    width: 64px; height: 44px; margin: 0 auto 12px;
     border-radius: 8px; overflow: hidden;
     box-shadow: var(--shadow); border: 1px solid var(--line);
   }
   .flag i { display: block; height: 50%; }
   .flag i:first-child { background: var(--red); }
   .flag i:last-child { background: var(--white); }
-  h1 { font-size: 1.9rem; margin: 0 0 6px; letter-spacing: .02em; color: var(--text); }
+  h1 { font-size: 1.8rem; margin: 0 0 4px; letter-spacing: .02em; color: var(--text); }
   h1 span { color: var(--red); }
-  .subtitle { color: var(--sub); margin: 0; font-size: 1rem; }
+  .subtitle { color: var(--sub); margin: 0; font-size: .95rem; }
 
-  .cards { display: grid; gap: 14px; margin-top: 8px; }
+  /* お知らせトースト */
+  .toast {
+    display: none; background: #333; color: #fff; padding: 10px 16px;
+    border-radius: 12px; font-size: .85rem; text-align: center; margin-bottom: 12px;
+    animation: fade .2s ease;
+  }
+  .toast.show { display: block; }
+
+  /* 設定エリア（出題数選択） */
+  .setting-box {
+    background: var(--white); border: 1px solid var(--line);
+    border-radius: 16px; padding: 12px 16px; margin: 16px 0;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .setting-label { font-size: .9rem; font-weight: 700; color: var(--text); }
+  .count-selector { display: flex; gap: 6px; }
+  .count-btn {
+    padding: 6px 12px; border-radius: 12px; border: 1px solid var(--line);
+    background: var(--bg); color: var(--sub); font-size: .85rem; font-weight: 700;
+    cursor: pointer; transition: all .15s ease;
+  }
+  .count-btn.active {
+    background: var(--red); color: #fff; border-color: var(--red);
+  }
+
+  .cards { display: grid; gap: 12px; }
   .mode-card {
     display: flex; align-items: center; gap: 16px;
     width: 100%; text-align: left;
     background: var(--white);
     border: 1.5px solid var(--line);
     border-radius: 20px;
-    padding: 22px 20px;
+    padding: 18px 20px;
     cursor: pointer;
     box-shadow: var(--shadow);
     font: inherit; color: inherit;
     transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+    position: relative;
   }
   .mode-card:hover { border-color: var(--red-line); transform: translateY(-2px); }
   .mode-card:active { transform: scale(.97); }
   .mode-icon {
-    flex: none; width: 56px; height: 56px; border-radius: 16px;
+    flex: none; width: 52px; height: 52px; border-radius: 16px;
     background: var(--red-soft); color: var(--red-deep);
     display: grid; place-items: center;
-    font-weight: 800; font-size: 1.15rem;
+    font-weight: 800; font-size: 1.1rem;
   }
-  .mode-title { font-weight: 700; font-size: 1.1rem; display: block; }
-  .mode-desc { color: var(--sub); font-size: .88rem; display: block; margin-top: 2px; }
-  .mode-arrow { margin-left: auto; color: var(--red); font-size: 1.4rem; }
+  .mode-title { font-weight: 700; font-size: 1.05rem; display: block; }
+  .mode-desc { color: var(--sub); font-size: .85rem; display: block; margin-top: 2px; }
+  .mode-badge {
+    margin-left: auto; font-size: .75rem; padding: 3px 8px; border-radius: 10px;
+    background: var(--red-soft); color: var(--red-deep); font-weight: 700;
+  }
+  
+  /* 復習リセットボタン */
+  .reset-review-btn {
+    border: none; background: none; color: var(--sub); font-size: .8rem;
+    cursor: pointer; text-decoration: underline; padding: 4px 8px; margin-left: 4px;
+  }
+  .reset-review-btn:hover { color: var(--red-deep); }
 
-  /* ---------- Back button (capsule) ---------- */
+  /* ---------- Topbar ---------- */
   .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
   .back-btn {
     display: inline-flex; align-items: center; gap: 4px;
-    padding: 9px 20px;
+    padding: 8px 18px;
     border: 1.5px solid var(--red);
     background: var(--white);
     color: var(--red-deep);
     border-radius: 24px;
-    font: inherit; font-weight: 700; font-size: .95rem;
+    font: inherit; font-weight: 700; font-size: .9rem;
     cursor: pointer;
     transition: transform .15s ease, background .15s ease, color .15s ease;
   }
@@ -107,19 +150,19 @@
   .bar > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--red), #F08A8A); border-radius: 8px; transition: width .35s ease; }
 
   .q-card {
-    background: var(--white); border-radius: 22px; padding: 26px 20px;
+    background: var(--white); border-radius: 22px; padding: 24px 20px;
     box-shadow: var(--shadow); text-align: center; border: 1px solid var(--line);
   }
   .q-hint { font-size: .85rem; color: var(--sub); margin: 0 0 8px; }
-  .q-word { font-size: 2.3rem; font-weight: 800; color: var(--red-deep); margin: 0; letter-spacing: .02em; word-break: break-word; }
+  .q-word { font-size: 2.2rem; font-weight: 800; color: var(--red-deep); margin: 0; letter-spacing: .02em; word-break: break-word; }
   .q-mean { font-size: 1.05rem; color: var(--text); margin: 4px 0 0; }
-  .q-ask { margin: 14px 0 0; font-size: .95rem; color: var(--sub); }
+  .q-ask { margin: 12px 0 0; font-size: .9rem; color: var(--sub); }
 
   .options { display: grid; gap: 10px; margin-top: 16px; }
   .opt {
-    width: 100%; padding: 15px 16px;
+    width: 100%; padding: 14px 16px;
     background: var(--white); border: 1.5px solid var(--line); border-radius: 16px;
-    font: inherit; font-size: 1.1rem; font-weight: 600; color: var(--text);
+    font: inherit; font-size: 1.05rem; font-weight: 600; color: var(--text);
     cursor: pointer; text-align: center;
     transition: transform .12s ease, border-color .12s ease, background .12s ease;
   }
@@ -139,19 +182,19 @@
   .feedback.show { display: block; }
   .feedback.ok { background: var(--ok-bg); border-color: #BFE3CF; }
   .feedback.ng { background: var(--ng-bg); border-color: var(--red-line); }
-  .fb-head { font-weight: 800; font-size: 1.05rem; margin: 0 0 6px; }
+  .fb-head { font-weight: 800; font-size: 1rem; margin: 0 0 6px; }
   .feedback.ok .fb-head { color: var(--ok); }
   .feedback.ng .fb-head { color: var(--red-deep); }
-  .fb-body { margin: 0; font-size: .95rem; }
+  .fb-body { margin: 0; font-size: .9rem; }
   .fb-body b { color: var(--red-deep); }
   .next-btn { display: none; margin-top: 16px; width: 100%; }
   .next-btn.show { display: block; }
 
   /* ---------- Buttons ---------- */
   .btn {
-    display: block; width: 100%; padding: 15px 18px;
+    display: block; width: 100%; padding: 14px 18px;
     border-radius: 18px; border: 1.5px solid var(--red);
-    font: inherit; font-weight: 700; font-size: 1.05rem; cursor: pointer;
+    font: inherit; font-weight: 700; font-size: 1rem; cursor: pointer;
     transition: transform .15s ease, background .15s ease;
   }
   .btn:active { transform: scale(.96); }
@@ -161,20 +204,20 @@
   .btn.ghost:hover { background: var(--red-soft); }
 
   /* ---------- Result ---------- */
-  .result { text-align: center; padding-top: 24px; }
+  .result { text-align: center; padding-top: 20px; }
   .result-card {
-    background: var(--white); border-radius: 24px; padding: 34px 20px;
+    background: var(--white); border-radius: 24px; padding: 30px 20px;
     box-shadow: var(--shadow); border: 1px solid var(--line); margin-bottom: 20px;
   }
   .result-emoji { font-size: 3rem; margin-bottom: 4px; }
-  .result-score { font-size: 1.5rem; font-weight: 800; margin: 6px 0; }
-  .result-score span { color: var(--red-deep); font-size: 2.6rem; }
-  .result-msg { color: var(--sub); margin: 0; }
-  .result-btns { display: grid; gap: 12px; }
+  .result-score { font-size: 1.4rem; font-weight: 800; margin: 6px 0; }
+  .result-score span { color: var(--red-deep); font-size: 2.4rem; }
+  .result-msg { color: var(--sub); margin: 0; font-size: .95rem; }
+  .result-btns { display: grid; gap: 10px; }
 
   @media (min-width: 700px) {
     .app { padding-top: 48px; }
-    h1 { font-size: 2.2rem; }
+    h1 { font-size: 2.1rem; }
   }
 </style>
 </head>
@@ -188,23 +231,48 @@
       <h1>インドネシア語<span>マスター</span></h1>
       <p class="subtitle">モードを選んでスタートしよう</p>
     </div>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- 出題数設定 -->
+    <div class="setting-box">
+      <span class="setting-label">1回の問題数:</span>
+      <div class="count-selector">
+        <button class="count-btn active" data-count="5">5問</button>
+        <button class="count-btn" data-count="10">10問</button>
+      </div>
+    </div>
+
     <div class="cards">
       <button class="mode-card" data-mode="me">
         <span class="mode-icon">me-</span>
         <span>
           <span class="mode-title">接頭辞 me- 音変化クイズ</span>
-          <span class="mode-desc">基語に me- がつくとどう変わる？</span>
+          <span class="mode-desc">動詞の接頭辞変化ルールをマスター</span>
         </span>
-        <span class="mode-arrow">›</span>
       </button>
+
       <button class="mode-card" data-mode="word">
         <span class="mode-icon">Aa</span>
         <span>
           <span class="mode-title">基本単語 意味当てクイズ</span>
-          <span class="mode-desc">インドネシア語の意味を当てよう</span>
+          <span class="mode-desc">日常会話で使う基本単語を学習</span>
         </span>
-        <span class="mode-arrow">›</span>
       </button>
+
+      <div style="position: relative;">
+        <button class="mode-card" data-mode="review" id="card-review">
+          <span class="mode-icon">📝</span>
+          <span>
+            <span class="mode-title">間違えた問題の復習</span>
+            <span class="mode-desc">弱点を集中して克服しよう</span>
+          </span>
+          <span class="mode-badge" id="review-count-badge">0問</span>
+        </button>
+        <div style="text-align: right; margin-top: 4px;">
+          <button id="btn-clear-review" class="reset-review-btn">復習リストをクリア</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -254,112 +322,89 @@
 (function () {
   // ---------- 問題データ ----------
   const ME_POOL = [
-    { base: "tulis",  mean: "書く",   ans: "menulis",   wrong: ["mentulis", "memtulis", "mengtulis"],
-      rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tulis → me + n + ulis = <b>menulis</b>" },
-    { base: "baca",   mean: "読む",   ans: "membaca",   wrong: ["menbaca", "mengbaca", "mebaca"],
-      rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>baca → <b>membaca</b>" },
-    { base: "sapu",   mean: "掃く",   ans: "menyapu",   wrong: ["mensapu", "mesapu", "mengsapu"],
-      rule: "<b>s で始まる語</b>は me- が <b>meny-</b> になり、頭の <b>s は消えます</b>。<br>sapu → me + ny + apu = <b>menyapu</b>" },
-    { base: "kirim",  mean: "送る",   ans: "mengirim",  wrong: ["mengkirim", "menkirim", "memkirim"],
-      rule: "<b>k で始まる語</b>は me- が <b>meng-</b> になり、頭の <b>k は消えます</b>。<br>kirim → me + ng + irim = <b>mengirim</b>" }, // 接尾辞なし(mengirim)・接尾辞つき(mengirimkan)どちらも使える
-    { base: "lihat",  mean: "見る",   ans: "melihat",   wrong: ["menlihat", "memlihat", "menglihat"],
-      rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>変わりません。<br>lihat → <b>melihat</b>" },
-    { base: "jual",   mean: "売る",   ans: "menjual",   wrong: ["mejual", "memjual", "menyjual"],
-      rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（頭の文字は残る）。<br>jual → <b>menjual</b>" },
-    { base: "pukul",  mean: "叩く",   ans: "memukul",   wrong: ["mempukul", "menpukul", "mengpukul"],
-      rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pukul → me + m + ukul = <b>memukul</b>" },
-    { base: "ambil",  mean: "取る",   ans: "mengambil", wrong: ["menambil", "memambil", "meambil"],
-      rule: "<b>母音（a, i, u, e, o）</b>で始まる語は me- が <b>meng-</b> になります。<br>ambil → <b>mengambil</b>" },
-    { base: "cuci",   mean: "洗う",   ans: "mencuci",   wrong: ["mecuci", "mengcuci", "memcuci"],
-      rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります。<br>cuci → <b>mencuci</b>" },
-    { base: "hitung", mean: "数える", ans: "menghitung", wrong: ["menitung", "memhitung", "mehitung"],
-      rule: "<b>h で始まる語</b>は me- が <b>meng-</b> になります（h は残る）。<br>hitung → <b>menghitung</b>" },
-    { base: "gambar", mean: "描く",   ans: "menggambar", wrong: ["mengambar", "memgambar", "megambar"],
-      rule: "<b>g で始まる語</b>は me- が <b>meng-</b> になります（g は残る）。<br>gambar → <b>menggambar</b>" },
-    { base: "beli",   mean: "買う",   ans: "membeli",   wrong: ["menbeli", "mengbeli", "mebeli"],
-      rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>beli → <b>membeli</b>" },
-    { base: "pakai",  mean: "使う",   ans: "memakai",   wrong: ["mempakai", "menpakai", "mengpakai"],
-      rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pakai → me + m + akai = <b>memakai</b>" },
-    { base: "nyanyi", mean: "歌う",   ans: "menyanyi",  wrong: ["mennyanyi", "memnyanyi", "menganyi"],
-      rule: "<b>ny で始まる語</b>は me- の形がそのまま（meny-）つきます。<br>nyanyi → <b>menyanyi</b>" },
-    { base: "dengar", mean: "聞く",   ans: "mendengar", wrong: ["mengdengar", "medengar", "memdengar"],
-      rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（d は残る）。<br>dengar → <b>mendengar</b>" },
-    { base: "masak",  mean: "料理する", ans: "memasak", wrong: ["menmasak", "mengmasak", "memmasak"],
-      rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>つきます。<br>masak → me + masak = <b>memasak</b>" },
-    { base: "panggil", mean: "呼ぶ", ans: "memanggil", wrong: ["mempanggil", "menpanggil", "mengpanggil"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>panggil → me + m + anggil = <b>memanggil</b>" },
-    { base: "pikir", mean: "〜について考える", ans: "memikirkan", wrong: ["mempikirkan", "mepikirkan", "mengpikirkan"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。「〜について考える」は接尾辞 <b>-kan</b> をつけた形で使います。<br>pikir → me + m + ikir + kan = <b>memikirkan</b>" },
-    { base: "potong", mean: "切る", ans: "memotong", wrong: ["mempotong", "menotong", "mepotong"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>potong → me + m + otong = <b>memotong</b>" },
-    { base: "pinjam", mean: "借りる", ans: "meminjam", wrong: ["mempinjam", "meninjam", "menpinjam"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pinjam → me + m + injam = <b>meminjam</b>" },
-    { base: "minta", mean: "頼む・求める", ans: "meminta", wrong: ["meninta", "memminta", "menminta"], rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>つきます。<br>minta → me + minta = <b>meminta</b>" },
-    { base: "minum", mean: "飲む", ans: "meminum", wrong: ["memminum", "menminum", "mengminum"], rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>つきます。<br>minum → me + minum = <b>meminum</b>" },
-    { base: "makan", mean: "食べる", ans: "memakan", wrong: ["memmakan", "menmakan", "mengmakan"], rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>つきます。<br>makan → me + makan = <b>memakan</b>" },
-    { base: "tutup", mean: "閉める", ans: "menutup", wrong: ["mentutup", "memtutup", "mengtutup"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tutup → me + n + utup = <b>menutup</b>" },
-    { base: "tunggu", mean: "待つ", ans: "menunggu", wrong: ["mentunggu", "memtunggu", "mengunggu"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tunggu → me + n + unggu = <b>menunggu</b>" },
-    { base: "tanya", mean: "尋ねる・質問する", ans: "menanya", wrong: ["mentanya", "memtanya", "mengtanya"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tanya → me + n + anya = <b>menanya</b>" }, // 接尾辞なし(menanya)・接尾辞つき(menanyakan)どちらも使える
-    { base: "terima", mean: "受け取る", ans: "menerima", wrong: ["menterima", "memerima", "mengterima"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>terima → me + n + erima = <b>menerima</b>" },
-    { base: "tari", mean: "踊る", ans: "menari", wrong: ["metari", "memtari", "mengtari"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tari → me + n + ari = <b>menari</b>" },
-    { base: "bawa", mean: "持っていく・運ぶ", ans: "membawa", wrong: ["menbawa", "mengbawa", "mebawa"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>bawa → <b>membawa</b>" },
-    { base: "bantu", mean: "手伝う", ans: "membantu", wrong: ["menbantu", "mengbantu", "mebantu"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>bantu → <b>membantu</b>" },
-    { base: "buka", mean: "開ける", ans: "membuka", wrong: ["menbuka", "mengbuka", "mebuka"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>buka → <b>membuka</b>" },
-    { base: "bayar", mean: "支払う", ans: "membayar", wrong: ["menbayar", "mengbayar", "mebayar"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>bayar → <b>membayar</b>" },
-    { base: "dapat", mean: "得る・もらう", ans: "mendapat", wrong: ["memdapat", "mengdapat", "medapat"], rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（d は残る）。<br>dapat → <b>mendapat</b>" }, // 接尾辞なし(mendapat)・接尾辞つき(mendapatkan)どちらも使える
-    { base: "dorong", mean: "押す", ans: "mendorong", wrong: ["memdorong", "mengdorong", "medorong"], rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（d は残る）。<br>dorong → <b>mendorong</b>" },
-    { base: "goreng", mean: "揚げる・炒める", ans: "menggoreng", wrong: ["mengoreng", "memgoreng", "megoreng"], rule: "<b>g で始まる語</b>は me- が <b>meng-</b> になります（g は残る）。<br>goreng → <b>menggoreng</b>" },
-    { base: "gosok", mean: "みがく・擦る", ans: "menggosok", wrong: ["mengosok", "memgosok", "megosok"], rule: "<b>g で始まる語</b>は me- が <b>meng-</b> になります（g は残る）。<br>gosok → <b>menggosok</b>" },
-    { base: "jawab", mean: "答える", ans: "menjawab", wrong: ["mejawab", "memjawab", "menyjawab"], rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（j は残る）。<br>jawab → <b>menjawab</b>" },
-    { base: "jemput", mean: "出迎える・迎えに行く", ans: "menjemput", wrong: ["mejemput", "memjemput", "mengjemput"], rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（j は残る）。<br>jemput → <b>menjemput</b>" },
-    { base: "jahit", mean: "縫う", ans: "menjahit", wrong: ["mejahit", "memjahit", "menyjahit"], rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（j は残る）。<br>jahit → <b>menjahit</b>" },
-    { base: "kunci", mean: "鍵をかける", ans: "mengunci", wrong: ["mengkunci", "menkunci", "memkunci"], rule: "<b>k で始まる語</b>は me- が <b>meng-</b> になり、頭の <b>k は消えます</b>。<br>kunci → me + ng + unci = <b>mengunci</b>" },
-    { base: "lompat", mean: "跳ぶ・ジャンプする", ans: "melompat", wrong: ["menlompat", "memlompat", "menglompat"], rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>つきます。<br>lompat → <b>melompat</b>" },
-    { base: "sewa", mean: "借りる・レンタルする", ans: "menyewa", wrong: ["mensewa", "mesewa", "mengsewa"], rule: "<b>s で始まる語</b>は me- が <b>meny-</b> になり、頭の <b>s は消えます</b>。<br>sewa → me + ny + ewa = <b>menyewa</b>" },
-    { base: "tambah", mean: "増やす・加える", ans: "menambah", wrong: ["mentambah", "memtambah", "mengtambah"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tambah → me + n + ambah = <b>menambah</b>" }, // 接尾辞なし(menambah)・接尾辞つき(menambahkan)どちらも使える
-    { base: "tangkap", mean: "つかまえる・捕獲する", ans: "menangkap", wrong: ["mentangkap", "memtangkap", "mengangkap"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tangkap → me + n + angkap = <b>menangkap</b>" },
-    { base: "tiup", mean: "吹く", ans: "meniup", wrong: ["mentiup", "memtiup", "mengtiup"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tiup → me + n + iup = <b>meniup</b>" },
-    { base: "pilih", mean: "選ぶ", ans: "memilih", wrong: ["mempilih", "menilih", "mepilih"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pilih → me + m + ilih = <b>memilih</b>" },
-    { base: "pindah", mean: "移す・移動させる", ans: "memindahkan", wrong: ["mempindahkan", "menindahkan", "mepindahkan"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。「移す」は接尾辞 <b>-kan</b> をつけた形で使います。<br>pindah → me + m + indah + kan = <b>memindahkan</b>" },
-    { base: "siram", mean: "水をかける・水やりする", ans: "menyiram", wrong: ["mensiram", "mesiram", "mengsiram"], rule: "<b>s で始まる語</b>は me- が <b>meny-</b> になり、頭の <b>s は消えます</b>。<br>siram → me + ny + iram = <b>menyiram</b>" },
-    { base: "suka", mean: "好き・好む", ans: "menyukai", wrong: ["mensukai", "mesukai", "mengsukai"], rule: "<b>s で始まる語</b>は me- が <b>meny-</b> になり、頭の <b>s は消えます</b>。「好む」は接尾辞 <b>-i</b> をつけた形で使います。<br>suka → me + ny + uka + i = <b>menyukai</b>" },
-    { base: "simpan", mean: "保存する・保管する", ans: "menyimpan", wrong: ["mensimpan", "mesimpan", "mengsimpan"], rule: "<b>s で始まる語</b>は me- が <b>meny-</b> になり、頭の <b>s は消えます</b>。<br>simpan → me + ny + impan = <b>menyimpan</b>" },
-    { base: "sambut", mean: "出迎える・歓迎する", ans: "menyambut", wrong: ["mensambut", "mesambut", "mengsambut"], rule: "<b>s で始まる語</b>は me- が <b>meny-</b> になり、頭の <b>s は消えます</b>。<br>sambut → me + ny + ambut = <b>menyambut</b>" },
-    { base: "kumpul", mean: "集める", ans: "mengumpulkan", wrong: ["mengkumpulkan", "menkumpulkan", "memkumpulkan"], rule: "<b>k で始まる語</b>は me- が <b>meng-</b> になり、頭の <b>k は消えます</b>。「集める」は接尾辞 <b>-kan</b> をつけた形で使います。<br>kumpul → me + ng + umpul + kan = <b>mengumpulkan</b>" },
-    { base: "kejar", mean: "追いかける", ans: "mengejar", wrong: ["mengkejar", "menkejar", "memkejar"], rule: "<b>k で始まる語</b>は me- が <b>meng-</b> になり、頭の <b>k は消えます</b>。<br>kejar → me + ng + ejar = <b>mengejar</b>" },
-    { base: "kenal", mean: "知っている・知り合う", ans: "mengenal", wrong: ["mengkenal", "menkenal", "memkenal"], rule: "<b>k で始まる語</b>は me- が <b>meng-</b> になり、頭の <b>k は消えます</b>。<br>kenal → me + ng + enal = <b>mengenal</b>" },
-    { base: "ajar", mean: "教える", ans: "mengajar", wrong: ["menajar", "memajar", "meajar"], rule: "<b>母音（a, i, u, e, o）</b>で始まる語は me- が <b>meng-</b> になります。<br>ajar → <b>mengajar</b>" },
-    { base: "isi", mean: "満たす・記入する", ans: "mengisi", wrong: ["menisi", "memisi", "meisi"], rule: "<b>母音（a, i, u, e, o）</b>で始まる語は me- が <b>meng-</b> になります。<br>isi → <b>mengisi</b>" },
-    { base: "ikat", mean: "縛る・結ぶ", ans: "mengikat", wrong: ["menikat", "mengkikat", "meikat"], rule: "<b>母音（a, i, u, e, o）</b>で始まる語は me- が <b>meng-</b> になります。<br>ikat → <b>mengikat</b>" },
-    { base: "usul", mean: "提案する", ans: "mengusulkan", wrong: ["menusulkan", "memusulkan", "meusulkan"], rule: "<b>母音（a, i, u, e, o）</b>で始まる語は me- が <b>meng-</b> になります。「提案する」は接尾辞 <b>-kan</b> をつけた形で使います。<br>usul → me + ng + usul + kan = <b>mengusulkan</b>" },
-    { base: "bakar", mean: "焼く・燃やす", ans: "membakar", wrong: ["menbakar", "mengbakar", "mebakar"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>bakar → <b>membakar</b>" },
-    { base: "buang", mean: "捨てる", ans: "membuang", wrong: ["menbuang", "mengbuang", "mebuang"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>buang → <b>membuang</b>" },
-    { base: "balas", mean: "返事する・返答する", ans: "membalas", wrong: ["menbalas", "mengbalas", "mebalas"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>balas → <b>membalas</b>" },
-    { base: "ganti", mean: "交換する・代える", ans: "mengganti", wrong: ["mengati", "memganti", "meganti"], rule: "<b>g で始まる語</b>は me- が <b>meng-</b> になります（g は残る）。<br>ganti → <b>mengganti</b>" },
-    { base: "hapus", mean: "消す・削除する", ans: "menghapus", wrong: ["menapus", "memhapus", "mehapus"], rule: "<b>h で始まる語</b>は me- が <b>meng-</b> になります（h は残る）。<br>hapus → <b>menghapus</b>" }, // 接尾辞なし(menghapus)・接尾辞つき(menghapuskan)どちらも使える
-    { base: "lupa", mean: "忘れる", ans: "melupakan", wrong: ["menlupakan", "memlupakan", "menglupakan"], rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>つきます。「忘れる」は接尾辞 <b>-kan</b> をつけた形で使います。<br>lupa → me + lupa + kan = <b>melupakan</b>" },
-    { base: "masuk", mean: "入る", ans: "memasuki", wrong: ["memmasuki", "menmasuki", "mengmasuki"], rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>つきます。「〜に入る」は接尾辞 <b>-i</b> をつけた形で使います。<br>masuk → me + masuk + i = <b>memasuki</b>" }
+    // 1音節語幹（menge-）の例を追加
+    { id: "me_cat", base: "cat", mean: "ペンキを塗る", ans: "mengecat", wrong: ["mencat", "memcat", "mengcat"], rule: "<b>1音節（単音節）の語幹</b>は me- が <b>menge-</b> になります。<br>cat → <b>mengecat</b>" },
+    { id: "me_tik", base: "tik", mean: "タイピングする", ans: "mengetik", wrong: ["mentik", "memtik", "mengtik"], rule: "<b>1音節（単音節）の語幹</b>は me- が <b>menge-</b> になります。<br>tik → <b>mengetik</b>" },
+    { id: "me_klik", base: "klik", mean: "クリックする", ans: "mengeklik", wrong: ["menklik", "memklik", "mengklik"], rule: "<b>1音節（単音節）の語幹</b>は me- が <b>menge-</b> になります。<br>klik → <b>mengeklik</b>" },
+
+    // 既存の問題
+    { id: "me_tulis", base: "tulis", mean: "書く", ans: "menulis", wrong: ["mentulis", "memtulis", "mengtulis"], rule: "<b>t で始まる語</b>は me- が <b>men-</b> になり、頭の <b>t は消えます</b>。<br>tulis → me + n + ulis = <b>menulis</b>" },
+    { id: "me_baca", base: "baca", mean: "読む", ans: "membaca", wrong: ["menbaca", "mengbaca", "mebaca"], rule: "<b>b で始まる語</b>は me- が <b>mem-</b> になります（b は残る）。<br>baca → <b>membaca</b>" },
+    { id: "me_sapu", base: "sapu", mean: "掃く", ans: "menyapu", wrong: ["mensapu", "mesapu", "mengsapu"], rule: "<b>s で始まる語</b>は me- が <b>meny-</b> になり、頭の <b>s は消えます</b>。<br>sapu → me + ny + apu = <b>menyapu</b>" },
+    { id: "me_kirim", base: "kirim", mean: "送る", ans: "mengirim", wrong: ["mengkirim", "menkirim", "memkirim"], rule: "<b>k で始まる語</b>は me- が <b>meng-</b> になり、頭の <b>k は消えます</b>。<br>kirim → me + ng + irim = <b>mengirim</b>" },
+    { id: "me_lihat", base: "lihat", mean: "見る", ans: "melihat", wrong: ["menlihat", "memlihat", "menglihat"], rule: "<b>l, m, n, r, w, y</b> で始まる語は、me- の形が<b>そのまま</b>変わりません。<br>lihat → <b>melihat</b>" },
+    { id: "me_jual", base: "jual", mean: "売る", ans: "menjual", wrong: ["mejual", "memjual", "menyjual"], rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります（頭の文字は残る）。<br>jual → <b>menjual</b>" },
+    { id: "me_pukul", base: "pukul", mean: "叩く", ans: "memukul", wrong: ["mempukul", "menpukul", "mengpukul"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pukul → me + m + ukul = <b>memukul</b><br><small style='color:#666'>※ mempunyai（持つ）など、一部例外的に p が消えない語もあります。</small>" },
+    { id: "me_ambil", base: "ambil", mean: "取る", ans: "mengambil", wrong: ["menambil", "memambil", "meambil"], rule: "<b>母音（a, i, u, e, o）</b>で始まる語は me- が <b>meng-</b> になります。<br>ambil → <b>mengambil</b>" },
+    { id: "me_cuci", base: "cuci", mean: "洗う", ans: "mencuci", wrong: ["mecuci", "mengcuci", "memcuci"], rule: "<b>d, c, j, z</b> で始まる語は me- が <b>men-</b> になります。<br>cuci → <b>mencuci</b>" },
+    { id: "me_hitung", base: "hitung", mean: "数える", ans: "menghitung", wrong: ["menitung", "memhitung", "mehitung"], rule: "<b>h で始まる語</b>は me- が <b>meng-</b> になります（h は残る）。<br>hitung → <b>menghitung</b>" },
+    { id: "me_pikir", base: "pikir", mean: "〜について考える", ans: "memikirkan", wrong: ["mempikirkan", "mepikirkan", "mengpikirkan"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pikir → me + m + ikir + kan = <b>memikirkan</b><br><small style='color:#666'>※ mempunyai（持つ）など、一部例外的に p が消えない語もあります。</small>" },
+    { id: "me_pilih", base: "pilih", mean: "選ぶ", ans: "memilih", wrong: ["mempilih", "menilih", "mepilih"], rule: "<b>p で始まる語</b>は me- が <b>mem-</b> になり、頭の <b>p は消えます</b>。<br>pilih → me + m + ilih = <b>memilih</b><br><small style='color:#666'>※ mempunyai（持つ）など、一部例外的に p が消えない語もあります。</small>" }
   ];
 
   const WORD_POOL = [
-    { id: "makan",    mean: "食べる",     note: "makan は「食べる」。nasi（ご飯）と合わせて makan nasi＝ご飯を食べる。" },
-    { id: "minum",    mean: "飲む",       note: "minum は「飲む」。minum air＝水を飲む。" },
-    { id: "rumah",    mean: "家",         note: "rumah は「家」。rumah sakit だと「病院」になります。" },
-    { id: "air",      mean: "水",         note: "air は「水」。英語の air（空気）とは違うので注意！" },
-    { id: "buku",     mean: "本",         note: "buku は「本」。日本語の「ブック」に近い音です。" },
-    { id: "sekolah",  mean: "学校",       note: "sekolah は「学校」。オランダ語 school が語源です。" },
-    { id: "besar",    mean: "大きい",     note: "besar は「大きい」。反対は kecil（小さい）。" },
-    { id: "murah",    mean: "安い",       note: "murah は「安い」。反対は mahal（高い）。" },
-    { id: "kucing",   mean: "猫",         note: "kucing は「猫」。「クチン」と読みます。" },
-    { id: "pergi",    mean: "行く",       note: "pergi は「行く」。反対は datang（来る）。" },
-    { id: "terima kasih", mean: "ありがとう", note: "terima kasih は「ありがとう」。直訳は「愛を受け取る」。" },
-    { id: "selamat pagi", mean: "おはよう", note: "selamat pagi は朝のあいさつ。siang（昼）、malam（夜）と使い分けます。" }
+    { id: "word_makan", word: "makan", mean: "食べる", cat: "動詞", note: "makan は「食べる」。nasi（ご飯）と合わせて makan nasi＝ご飯を食べる。" },
+    { id: "word_minum", word: "minum", mean: "飲む", cat: "動詞", note: "minum は「飲む」。minum air＝水を飲む。" },
+    { id: "word_rumah", word: "rumah", mean: "家", cat: "名詞", note: "rumah は「家」。rumah sakit だと「病院」になります。" },
+    { id: "word_air", word: "air", mean: "水", cat: "名詞", note: "air は「水」。英語の air（空気）とは違うので注意！" },
+    { id: "word_buku", word: "buku", mean: "本", cat: "名詞", note: "buku は「本」。日本語の「ブック」に近い音です。" },
+    { id: "word_sekolah", word: "sekolah", mean: "学校", cat: "名詞", note: "sekolah は「学校」。オランダ語 school が語源です。" },
+    { id: "word_besar", word: "besar", mean: "大きい", cat: "形容詞", note: "besar は「大きい」。反対は kecil（小さい）。" },
+    { id: "word_murah", word: "murah", mean: "安い", cat: "形容詞", note: "murah は「安い」。反対は mahal（高い）。" },
+    { id: "word_kucing", word: "kucing", mean: "猫", cat: "名詞", note: "kucing は「猫」。「クチン」と読みます。" },
+    { id: "word_pergi", word: "pergi", mean: "行く", cat: "動詞", note: "pergi は「行く」。反対は datang（来る）。" },
+    { id: "word_terima_kasih", word: "terima kasih", mean: "ありがとう", cat: "挨拶", note: "terima kasih は「ありがとう」。直訳は「愛を受け取る」。" },
+    { id: "word_selamat_pagi", word: "selamat pagi", mean: "おはよう", cat: "挨拶", note: "selamat pagi は朝のあいさつ。siang（昼）、malam（夜）と使い分けます。" }
   ];
 
-  const TOTAL = 5;
-
-  // ---------- 状態 ----------
+  // ---------- 設定・状態 ----------
+  let questionCount = 5;
   let mode = null, questions = [], idx = 0, score = 0, answered = false;
 
   const $ = (id) => document.getElementById(id);
   const screens = { top: $("screen-top"), quiz: $("screen-quiz"), result: $("screen-result") };
 
+  // トースト表示
+  function showToast(msg) {
+    const t = $("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 3000);
+  }
+
+  // LocalStorage
+  function getWrongList() {
+    return JSON.parse(localStorage.getItem("indo_quiz_wrong") || "[]");
+  }
+
+  function saveWrongItem(item) {
+    let list = getWrongList();
+    if (!list.some(q => q.id === item.id)) {
+      list.push(item);
+      localStorage.setItem("indo_quiz_wrong", JSON.stringify(list));
+    }
+    updateReviewBadge();
+  }
+
+  function removeWrongItem(itemId) {
+    let list = getWrongList().filter(q => q.id !== itemId);
+    localStorage.setItem("indo_quiz_wrong", JSON.stringify(list));
+    updateReviewBadge();
+  }
+
+  function clearWrongList() {
+    localStorage.removeItem("indo_quiz_wrong");
+    updateReviewBadge();
+    showToast("復習リストをクリアしました！");
+  }
+
+  function updateReviewBadge() {
+    const list = getWrongList();
+    $("review-count-badge").textContent = list.length + "問";
+    $("card-review").style.opacity = list.length === 0 ? "0.6" : "1";
+  }
+
+  // 画面切替
   function show(name) {
     Object.values(screens).forEach((s) => s.classList.remove("active"));
     screens[name].classList.add("active");
@@ -375,39 +420,56 @@
     return a;
   }
 
-  // ---------- 問題生成 ----------
+  // 問題作成
   function buildQuestions(m) {
+    let pool = [];
     if (m === "me") {
-      return shuffle(ME_POOL).slice(0, TOTAL).map((q) => ({
-        hint: "基語と意味",
-        word: q.base,
-        mean: "（" + q.mean + "）",
-        ask: "me- がついた正しい形はどれ？",
-        options: shuffle([q.ans, ...q.wrong]),
-        answer: q.ans,
-        explain: q.rule
+      pool = shuffle(ME_POOL).slice(0, questionCount).map((q) => ({
+        id: q.id, hint: "基語と意味", word: q.base, mean: "（" + q.mean + "）",
+        ask: "me- がついた正しい形はどれ？", options: shuffle([q.ans, ...q.wrong]),
+        answer: q.ans, explain: q.rule, raw: q
       }));
+    } else if (m === "word") {
+      pool = shuffle(WORD_POOL).slice(0, questionCount).map((q) => {
+        const others = shuffle(WORD_POOL.filter((w) => w.mean !== q.mean)).slice(0, 3).map((w) => w.mean);
+        return {
+          id: q.id, hint: "【" + q.cat + "】 この単語の意味は？", word: q.word, mean: "",
+          ask: "日本語の意味を選んでください", options: shuffle([q.mean, ...others]),
+          answer: q.mean, explain: q.note, raw: q
+        };
+      });
+    } else if (m === "review") {
+      const wrongList = getWrongList();
+      if (wrongList.length === 0) return [];
+      pool = shuffle(wrongList).slice(0, questionCount).map((q) => {
+        if (q.base) {
+          return {
+            id: q.id, hint: "【復習】基語と意味", word: q.base, mean: "（" + q.mean + "）",
+            ask: "me- がついた正しい形はどれ？", options: shuffle([q.ans, ...q.wrong]),
+            answer: q.ans, explain: q.rule, raw: q
+          };
+        } else {
+          const others = shuffle(WORD_POOL.filter((w) => w.mean !== q.mean)).slice(0, 3).map((w) => w.mean);
+          return {
+            id: q.id, hint: "【復習・" + q.cat + "】 この単語の意味は？", word: q.word, mean: "",
+            ask: "日本語の意味を選んでください", options: shuffle([q.mean, ...others]),
+            answer: q.mean, explain: q.note, raw: q
+          };
+        }
+      });
     }
-    return shuffle(WORD_POOL).slice(0, TOTAL).map((q) => {
-      const others = shuffle(WORD_POOL.filter((w) => w.mean !== q.mean)).slice(0, 3).map((w) => w.mean);
-      return {
-        hint: "この単語の意味は？",
-        word: q.id,
-        mean: "",
-        ask: "日本語の意味を選んでください",
-        options: shuffle([q.mean, ...others]),
-        answer: q.mean,
-        explain: q.note
-      };
-    });
+    return pool;
   }
 
-  // ---------- 表示 ----------
   function start(m) {
+    if (m === "review" && getWrongList().length === 0) {
+      showToast("現在、復習する問題（間違えた問題）はありません！");
+      return;
+    }
     mode = m;
     questions = buildQuestions(m);
     idx = 0; score = 0;
-    $("mode-label").textContent = m === "me" ? "接頭辞 me- 音変化" : "基本単語 意味当て";
+    $("mode-label").textContent = m === "me" ? "接頭辞 me- 音変化" : (m === "word" ? "基本単語 意味当て" : "間違えた問題の復習");
     show("quiz");
     render();
   }
@@ -445,7 +507,14 @@
     answered = true;
     const q = questions[idx];
     const ok = text === q.answer;
-    if (ok) score++;
+    
+    if (ok) {
+      score++;
+      // モードに関わらず正解したら復習リストから削除する処理
+      removeWrongItem(q.id);
+    } else {
+      saveWrongItem(q.raw);
+    }
 
     document.querySelectorAll("#options .opt").forEach((b) => {
       b.disabled = true;
@@ -486,16 +555,35 @@
     $("result-emoji").textContent = emoji;
     $("result-msg").textContent = msg;
     show("result");
+    updateReviewBadge();
   }
 
-  // ---------- イベント ----------
+  // イベント登録
   document.querySelectorAll(".mode-card").forEach((c) =>
     c.addEventListener("click", () => start(c.dataset.mode))
   );
-  $("btn-back").addEventListener("click", () => show("top"));
+
+  document.querySelectorAll(".count-btn").forEach((b) => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll(".count-btn").forEach(btn => btn.classList.remove("active"));
+      b.classList.add("active");
+      questionCount = parseInt(b.dataset.count);
+    });
+  });
+
+  $("btn-clear-review").addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (confirm("復習リストをすべてクリアしてもよろしいですか？")) {
+      clearWrongList();
+    }
+  });
+
+  $("btn-back").addEventListener("click", () => { updateReviewBadge(); show("top"); });
   $("btn-next").addEventListener("click", next);
   $("btn-retry").addEventListener("click", () => start(mode));
-  $("btn-top").addEventListener("click", () => show("top"));
+  $("btn-top").addEventListener("click", () => { updateReviewBadge(); show("top"); });
+
+  updateReviewBadge();
 })();
 </script>
 </body>
