@@ -187,8 +187,9 @@
   .feedback.ng .fb-head { color: var(--red-deep); }
   .fb-body { margin: 0; font-size: .9rem; }
   .fb-body b { color: var(--red-deep); }
-  .next-btn { display: none; margin-top: 16px; width: 100%; }
-  .next-btn.show { display: block; }
+  /* .btn より後ろに定義された display:block に負けないよう、.btn と組み合わせて指定 */
+  .btn.next-btn { display: none; margin-top: 16px; width: 100%; }
+  .btn.next-btn.show { display: block; }
 
   /* ---------- Buttons ---------- */
   .btn {
@@ -707,6 +708,7 @@
   }
 
   function next() {
+    if (!answered) return; // 回答前は進まない
     idx++;
     if (idx >= questions.length) return showResult();
     render();
